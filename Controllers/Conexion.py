@@ -7,13 +7,21 @@
 import mysql.connector
 
 class CConexion:
-    def ConexionBaseDeDatos():
+    def conexionBaseDeDatos():
+        config = {
+            'user' : 'root', 
+            'password' : '',
+            'host' : '127.0.0.1', 
+            'database' : 'nation',
+            'port' : '3306', 
+            'raise_on_warnings' : True
+        }
         try:
-            conexion = mysql.connector.connect(
-                user = 'root', password = '',
-                host = 'localhost', database = 'nations',
-                port = '3306'
-            )
+            conexion = mysql.connector.connect(**config)
             print("Conexion conectada =D")
+            return conexion
         except mysql.connector.Error as error:
             print("Error al conectarse a la base de datos {}".format(error))
+            return conexion
+
+    conexionBaseDeDatos()
