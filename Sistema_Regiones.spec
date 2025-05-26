@@ -9,6 +9,7 @@ a = Analysis(
     datas=[
         ('Controllers', 'Controllers'),
         ('Models', 'Models'),
+        ('Recursos/Imgs', 'Recursos/Imgs'),  # Agregar el icono
     ],
     hiddenimports=[
         'Region', 
@@ -50,4 +51,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='Recursos\\Imgs\\globe.ico',  # AGREGAR ESTA LÍNEA
 )
