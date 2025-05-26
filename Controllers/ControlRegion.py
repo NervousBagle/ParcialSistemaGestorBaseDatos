@@ -14,7 +14,7 @@ class ControlRegion:
     def ingresarRegion(region):
         name = region.get_name()
         con_id = region.get_continent_id()
-        
+
         try:
             conexion = CConexion.conexionBaseDeDatos()
             cursor = conexion.cursor()
@@ -49,7 +49,7 @@ class ControlRegion:
         reg_id = region.get_region_id()
         name = region.get_name()
         con_id = region.get_continent_id()
-        
+
         try:
             conexion = CConexion.conexionBaseDeDatos()
             cursor = conexion.cursor()
@@ -81,8 +81,8 @@ class ControlRegion:
 
 # reg = Region(NULL, "Gondor", 8)
 reg1 = Region(26, "Gondor", 7)
-ControlRegion.ingresarRegion(reg1)
-# for row in ControlRegion.mostrarRegion():
-#     print(row)
+# ControlRegion.ingresarRegion(reg1)
+for row in ControlRegion.mostrarRegion():
+    print(row)
 # ControlRegion.actualizarRegion(26, reg1)
 # ControlRegion.borrarRegion("Gondor")
