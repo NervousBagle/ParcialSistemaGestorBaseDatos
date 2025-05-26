@@ -26,7 +26,7 @@ class ControlRegion:
             print(cursor.rowcount, "Registro Ingresado")
             conexion.close()
 
-        except mysql.connector.Error as error:
+        except pymysql.Error as error:
             print("Error de ingreso de datos {}".format(error))
 # Obtiene todos los datos de todas las regiones
     def mostrarRegion():
@@ -41,8 +41,62 @@ class ControlRegion:
             conexion.close()
             return resultadoConsulta
 
-        except mysql.connector.Error as error:
+        except pymysql.Error as error:
             print("Error de mostrar datos {}".format(error))
+
+# Nuevo método para buscar regiones por nombre
+    def buscarRegion(texto_busqueda):
+        try:
+            conexion = CConexion.conexionBaseDeDatos()
+            cursor = conexion.cursor()
+            # Buscar regiones que contengan el texto en el nombre (case insensitive)
+            sql = "SELECT * FROM regions WHERE regions.name LIKE %s;"
+            patron_busqueda = f"%{texto_busqueda}%"
+            cursor.execute(sql, (patron_busqueda,))
+            resultadoConsulta = cursor.fetchall()
+            conexion.commit()
+            print(cursor.rowcount, "Registros encontrados en búsqueda")
+            conexion.close()
+            return resultadoConsulta
+
+        except Exception as error:
+            print("Error en búsqueda de regiones {}".format(error))
+            return []
+
+# Método adicional para buscar por múltiples criterios
+    def buscarRegionAvanzada(nombre=None, continent_id=None):
+        try:
+            conexion = CConexion.conexionBaseDeDatos()
+            cursor = conexion.cursor()
+            
+            # Construir consulta dinámica
+            conditions = []
+            valores = []
+            
+            if nombre and nombre.strip():
+                conditions.append("regions.name LIKE %s")
+                valores.append(f"%{nombre.strip()}%")
+            
+            if continent_id and str(continent_id).strip():
+                conditions.append("regions.continent_id = %s")
+                valores.append(int(continent_id))
+            
+            if not conditions:
+                # Si no hay criterios, devolver todas las regiones
+                return ControlRegion.mostrarRegion()
+            
+            sql = "SELECT * FROM regions WHERE " + " AND ".join(conditions) + ";"
+            cursor.execute(sql, valores)
+            resultadoConsulta = cursor.fetchall()
+            conexion.commit()
+            print(cursor.rowcount, "Registros encontrados en búsqueda avanzada")
+            conexion.close()
+            return resultadoConsulta
+
+        except Exception as error:
+            print("Error en búsqueda avanzada de regiones {}".format(error))
+            return []
+
 # Cambiar el nombre y el continente de la region dada
     def actualizarRegion(id, region):
         aux_id = id
@@ -60,7 +114,7 @@ class ControlRegion:
             print("Registro actualizado")
             conexion.close()
 
-        except mysql.connector.Error as error:
+        except pymysql.Error as error:
             print("Error al actualizar datos {}".format(error))
             print(valores)
 # Recibe el id de un renglon y lo elimina
@@ -76,7 +130,7 @@ class ControlRegion:
             print(cursor.rowcount, "Registro eliminado")
             conexion.close()
 
-        except mysql.connector.Error as error:
+        except pymysql.Error as error:
             print("Error al eliminar datos {}".format(error))
 
 # reg = Region(NULL, "Gondor", 8)
