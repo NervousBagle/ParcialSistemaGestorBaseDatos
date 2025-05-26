@@ -1,27 +1,23 @@
-### 
-# Para instalar la libreria que permite la conexxion con mysql usar las siguientes lineas en la terminal
-#   cd <direccion donde se clono el repositorio>
-#   pip install mysql-connector-python
-###
-
-import mysql.connector
+import pymysql
+import os
 
 class CConexion:
     def conexionBaseDeDatos():
-        config = {
-            'user' : 'root', 
-            'password' : '',
-            'host' : '127.0.0.1', 
-            'database' : 'nation',
-            'port' : '3306', 
-            'raise_on_warnings' : True
-        }
         try:
-            conexion = mysql.connector.connect(**config)
+            # Configurar variables de entorno
+            os.environ['LC_ALL'] = 'C'
+            os.environ['LANG'] = 'C'
+            
+            conexion = pymysql.connect(
+                host='127.0.0.1',
+                user='root',
+                password='',
+                database='nation',
+                port=3306,
+                charset='utf8mb4'
+            )
             print("Conexion conectada =D")
             return conexion
-        except mysql.connector.Error as error:
+        except Exception as error:
             print("Error al conectarse a la base de datos {}".format(error))
-            return conexion
-
-    conexionBaseDeDatos()
+            return None
