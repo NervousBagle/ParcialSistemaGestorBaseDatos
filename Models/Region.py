@@ -1,10 +1,13 @@
-from Controllers.Conexion import *
+from asyncio.windows_events import NULL
+
 
 class Region:
 
 # Constructor vacio
     def __init__(self):
         pass
+# Constructor nombre continente
+
 # Constructor con todo
     def __init__(self, __region_id, __name, __continent_id, ):
         self.__region_id = __region_id
@@ -32,18 +35,3 @@ class Region:
 
     def get_continent_id(self):
         return self.__continent_id
-
-# Metodos
-    def ingresarRegion(region_id, name, continent_id):
-        try:
-            conexion = CConexion.conexionBaseDeDatos()
-            cursor = conexion.cursor()
-            sql = "insert into usuarios values(null, %s, %s, %s);"
-            valores = (region_id, name, continent_id)
-            cursor.execute(sql, valores)
-            conexion.commit()
-            print(cursor.rowcount, "Registro Ingresado")
-            conexion.close()
-
-        except mysql.connector.Error as error:
-            print("Error de ingreso de datos {}".format(error))

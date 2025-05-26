@@ -28,7 +28,7 @@ class EntradaController:
         
         Args:
             datos (dict): Diccionario con los datos de la entrada
-                         {'nombre': str, 'email': str, 'telefono': str, 'descripcion': str}
+                        {'nombre': str, 'email': str, 'telefono': str, 'descripcion': str}
         
         Returns:
             dict: Resultado de la operación
