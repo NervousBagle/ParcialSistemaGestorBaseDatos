@@ -6,10 +6,10 @@ import os
 # Agregar el directorio actual al path para importar los módulos
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from Views.lista_region import RegionListView
-from Views.formulario_region import RegionFormView
+import lista_region
+import formulario_region
 
-class MainView:
+class main:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Sistema de Gestión de Regiones")
@@ -104,16 +104,16 @@ class MainView:
     
     def open_region_list(self):
         """Abrir la ventana de lista de regiones"""
-        RegionListView(self.root)
+        lista_region.lista_region(self.root)
     
     def open_create_region(self):
         """Abrir la ventana para crear nueva región"""
-        RegionFormView(self.root)
+        formulario_region.formulario_region(self.root)
     
     def run(self):
         """Ejecutar la aplicación"""
         self.root.mainloop()
 
 if __name__ == "__main__":
-    app = MainView()
+    app = main()
     app.run()

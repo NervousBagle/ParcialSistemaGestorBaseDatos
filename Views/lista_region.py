@@ -12,9 +12,9 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append("Controllers")
 from ControlRegion import ControlRegion # type: ignore
 
-from Views.formulario_region import RegionFormView
+import formulario_region
 
-class RegionListView:
+class lista_region:
     def __init__(self, parent=None):
         self.window = tk.Toplevel(parent) if parent else tk.Tk()
         self.window.title("Lista de Regiones")
@@ -189,7 +189,7 @@ class RegionListView:
         def on_close():
             self.cargar_regiones()  # Recargar la lista cuando se cierre el formulario
         
-        RegionFormView(self.window, on_close_callback=on_close)
+        formulario_region.formulario_region(self.window, on_close_callback=on_close)
     
     def editar_region(self):
         """Editar la región seleccionada"""
@@ -200,7 +200,7 @@ class RegionListView:
             def on_close():
                 self.cargar_regiones()  # Recargar la lista cuando se cierre el formulario
             
-            RegionFormView(self.window, region=region, region_id=region_id, on_close_callback=on_close)
+            formulario_region.formulario_region(self.window, region=region, region_id=region_id, on_close_callback=on_close)
     
     def borrar_region_seleccionada(self):
         """Eliminar la región seleccionada"""
@@ -233,5 +233,5 @@ class RegionListView:
         self.window.geometry(f'{width}x{height}+{x}+{y}')
 
 if __name__ == "__main__":
-    app = RegionListView()
+    app = lista_region()
     app.window.mainloop()

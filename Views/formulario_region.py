@@ -10,7 +10,7 @@ sys.path.append("Models")
 from ControlRegion import ControlRegion # type: ignore
 from Region import Region # type: ignore
 
-class RegionFormView:
+class formulario_region:
     def __init__(self, parent=None, region=None, region_id=None, on_close_callback=None):
         self.window = tk.Toplevel(parent) if parent else tk.Tk()
         self.parent = parent
@@ -206,5 +206,5 @@ class RegionFormView:
         self.window.geometry(f'{width}x{height}+{x}+{y}')
 
 if __name__ == "__main__":
-    app = RegionFormView()
+    app = formulario_region()
     app.window.mainloop()
