@@ -36,7 +36,7 @@ class RegionFormView:
         
         # Si es modo edición, cargar datos
         if self.is_edit_mode:
-            self.load_region_data()
+            self.cargar_datos_region()
         
         # Centrar ventana
         self.center_window()
@@ -116,7 +116,7 @@ class RegionFormView:
         btn_save = ttk.Button(
             buttons_frame,
             text=save_text,
-            command=self.save_region
+            command=self.guardar_region
         )
         btn_save.grid(row=0, column=0, padx=(0, 10))
         
@@ -129,16 +129,16 @@ class RegionFormView:
         btn_cancel.grid(row=0, column=1)
         
         # Bindings para Enter y Escape
-        self.window.bind('<Return>', lambda e: self.save_region())
+        self.window.bind('<Return>', lambda e: self.guardar_region())
         self.window.bind('<Escape>', lambda e: self.on_window_close())
     
-    def load_region_data(self):
+    def cargar_datos_region(self):
         """Cargar datos de la región en modo edición"""
         if self.region:
             self.name_var.set(self.region.get_name() or "")
             self.continent_id_var.set(str(self.region.get_continent_id() or ""))
     
-    def validate_form(self):
+    def validar_datos(self):
         """Validar los datos del formulario"""
         name = self.name_var.get().strip()
         continent_id = self.continent_id_var.get().strip()
@@ -163,9 +163,9 @@ class RegionFormView:
         
         return True
     
-    def save_region(self):
+    def guardar_region(self):
         """Guardar la región"""
-        if not self.validate_form():
+        if not self.validar_datos():
             return
         
         try:

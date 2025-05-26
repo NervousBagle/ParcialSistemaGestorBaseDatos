@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append("Controllers")
 from ControlRegion import ControlRegion # type: ignore
 
-from region_form_view import RegionFormView
+from Views.formulario_region import RegionFormView
 
 class RegionListView:
     def __init__(self, parent=None):
@@ -28,7 +28,7 @@ class RegionListView:
         self.create_widgets()
         
         # Cargar datos
-        self.load_regions()
+        self.cargar_regiones()
         
         # Centrar ventana
         self.center_window()
@@ -71,19 +71,19 @@ class RegionListView:
         btn_refresh = ttk.Button(
             buttons_frame,
             text="Actualizar",
-            command=self.load_regions
+            command=self.cargar_regiones
         )
         btn_refresh.grid(row=0, column=0, padx=(0, 5))
         
         btn_new = ttk.Button(
             buttons_frame,
             text="Nueva Región",
-            command=self.create_region
+            command=self.crear_region
         )
         btn_new.grid(row=0, column=1, padx=5)
         
         # TreeView para mostrar regiones
-        self.create_treeview(main_frame)
+        self.crear_treeview(main_frame)
         
         # Frame para botones inferiores
         bottom_frame = ttk.Frame(main_frame)
@@ -92,14 +92,14 @@ class RegionListView:
         btn_edit = ttk.Button(
             bottom_frame,
             text="Editar Seleccionada",
-            command=self.edit_selected_region
+            command=self.editar_region
         )
         btn_edit.grid(row=0, column=0, padx=(0, 5))
         
         btn_delete = ttk.Button(
             bottom_frame,
             text="Eliminar Seleccionada",
-            command=self.delete_selected_region
+            command=self.borrar_region_seleccionada
         )
         btn_delete.grid(row=0, column=1, padx=5)
         
@@ -113,7 +113,7 @@ class RegionListView:
         # Configurar expansión del frame inferior
         bottom_frame.columnconfigure(2, weight=1)
     
-    def create_treeview(self, parent):
+    def crear_treeview(self, parent):
         """Crear el TreeView para mostrar las regiones"""
         # Frame para el TreeView y scrollbars
         tree_frame = ttk.Frame(parent)
@@ -146,9 +146,9 @@ class RegionListView:
         h_scrollbar.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
         # Evento de doble clic
-        self.tree.bind('<Double-1>', lambda e: self.edit_selected_region())
+        self.tree.bind('<Double-1>', lambda e: self.editar_region())
     
-    def load_regions(self):
+    def cargar_regiones(self):
         """Cargar regiones desde la base de datos"""
         try:
             # Limpiar TreeView
@@ -170,7 +170,7 @@ class RegionListView:
         except Exception as e:
             messagebox.showerror("Error", f"Error al cargar regiones: {str(e)}")
     
-    def get_selected_region(self):
+    def get_region_seleccionada(self):
         """Obtener la región seleccionada"""
         selection = self.tree.selection()
         if not selection:
@@ -184,27 +184,27 @@ class RegionListView:
         region = Region(values[0], values[1], values[2])
         return region, values[0]  # Retornar también el ID original
     
-    def create_region(self):
+    def crear_region(self):
         """Abrir ventana para crear nueva región"""
         def on_close():
-            self.load_regions()  # Recargar la lista cuando se cierre el formulario
+            self.cargar_regiones()  # Recargar la lista cuando se cierre el formulario
         
         RegionFormView(self.window, on_close_callback=on_close)
     
-    def edit_selected_region(self):
+    def editar_region(self):
         """Editar la región seleccionada"""
-        result = self.get_selected_region()
+        result = self.get_region_seleccionada()
         if result:
             region, region_id = result
             
             def on_close():
-                self.load_regions()  # Recargar la lista cuando se cierre el formulario
+                self.cargar_regiones()  # Recargar la lista cuando se cierre el formulario
             
             RegionFormView(self.window, region=region, region_id=region_id, on_close_callback=on_close)
     
-    def delete_selected_region(self):
+    def borrar_region_seleccionada(self):
         """Eliminar la región seleccionada"""
-        result = self.get_selected_region()
+        result = self.get_region_seleccionada()
         if result:
             region, region_id = result
             
@@ -219,7 +219,7 @@ class RegionListView:
                 try:
                     ControlRegion.borrarRegion(region.get_name())
                     messagebox.showinfo("Éxito", "Región eliminada correctamente")
-                    self.load_regions()  # Recargar la lista
+                    self.cargar_regiones()  # Recargar la lista
                 except Exception as e:
                     messagebox.showerror("Error", f"Error al eliminar región: {str(e)}")
     

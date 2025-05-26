@@ -6,8 +6,8 @@ import os
 # Agregar el directorio actual al path para importar los módulos
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from region_list_view import RegionListView
-from region_form_view import RegionFormView
+from Views.lista_region import RegionListView
+from Views.formulario_region import RegionFormView
 
 class MainView:
     def __init__(self):
@@ -15,13 +15,10 @@ class MainView:
         self.root.title("Sistema de Gestión de Regiones")
         self.root.geometry("800x600")
         self.root.resizable(True, True)
-        
         # Configurar estilo
         self.setup_styles()
-        
         # Crear la interfaz
         self.create_widgets()
-        
         # Centrar ventana
         self.center_window()
     
